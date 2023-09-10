@@ -1,4 +1,6 @@
 <script>
+	import { enhance } from '$app/forms';
+
 	export let data;
 	export let form;
 </script>
@@ -10,7 +12,7 @@
 		<p class="error">{form.error}</p>
 	{/if}
 
-	<form method="POST" action="?/create">
+	<form method="POST" action="?/create" use:enhance>
 		<label>
 			add a todo:
 			<input
@@ -24,7 +26,7 @@
 	<ul class="todos">
 		{#each data.todos as todo (todo.id)}
 			<li>
-				<form method="POST" action="?/delete">
+				<form method="POST" action="?/delete" use:enhance>
 					<input type="hidden" name="id" value={todo.id} />
 					<span>{todo.description}</span>
 					<button aria-label="Mark as complete" />

@@ -4,6 +4,9 @@
 
 	export let data;
 	export let form;
+
+	let creating = false;
+	let deleting = [];	
 </script>
 
 <div class="centered">
@@ -13,13 +16,20 @@
 		<p class="error">{form.error}</p>
 	{/if}
 
-	<form method="POST" action="?/create" use:enhance>
+	<form method="POST" action="?/create" use:enhance={() => {
+		creating = true;
+		return async ({update}) => {
+			await update();
+			creating = false;
+		}
+	}}>
 		<label>
 			add a todo:
 			<input
 				name="description"
 				autocomplete="off"
 				required
+				disabled={creating}
 			/>
 		</label>
 	</form>
@@ -35,6 +45,11 @@
 			</li>
 		{/each}
 	</ul>
+
+	{#if creating}
+		<span class="saving">saving...</span>
+	{/if}
+
 </div>
 
 <style>

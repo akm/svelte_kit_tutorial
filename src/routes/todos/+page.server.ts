@@ -13,3 +13,14 @@ export function load(arg: { cookies: Cookies }) {
 		todos: db.getTodos(id) ?? []
 	};
 }
+
+export const actions = {
+	default: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const userID = cookies.get('userid');
+		const description = data.get('description');
+		if (!userID) throw new Error('User not found');
+		if (!description) throw new Error('Description not found');
+		db.createTodo(userID, description.toString());
+	}
+};

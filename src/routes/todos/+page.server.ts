@@ -17,6 +17,7 @@ export function load(arg: { cookies: Cookies }) {
 
 export const actions = {
 	create: async ({ cookies, request }) => {
+		await new Promise((fulfil) => setTimeout(fulfil, 1000)); // artificial delay
 		const data = await request.formData();
 		const userID = cookies.get('userid');
 		const description = data.get('description');
@@ -37,6 +38,7 @@ export const actions = {
 	},
 
 	delete: async ({ cookies, request }) => {
+		await new Promise((fulfil) => setTimeout(fulfil, 1000)); // artificial delay
 		const data = await request.formData();
 		const userID = cookies.get('userid');
 		const id = data.get('id');

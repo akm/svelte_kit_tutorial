@@ -36,6 +36,7 @@
 
 	input {
 		flex: 1;
+		color: black;
 	}
 
 	span {

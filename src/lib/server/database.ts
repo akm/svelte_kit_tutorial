@@ -23,10 +23,18 @@ export function getTodos(userid: string) {
 }
 
 export function createTodo(userid: string, description: string) {
+	if (description === '') {
+		throw new Error('todo must have a description');
+	}
+
 	const todos = db.get(userid);
 
 	if (!todos) {
 		throw new Error('User not found');
+	}
+
+	if (todos.find((todo) => todo.description === description)) {
+		throw new Error('todos must be unique');
 	}
 
 	todos.push({

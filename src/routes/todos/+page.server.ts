@@ -15,7 +15,7 @@ export function load(arg: { cookies: Cookies }) {
 }
 
 export const actions = {
-	default: async ({ cookies, request }) => {
+	create: async ({ cookies, request }) => {
 		const data = await request.formData();
 		const userID = cookies.get('userid');
 		const description = data.get('description');

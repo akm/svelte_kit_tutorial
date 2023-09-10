@@ -1,4 +1,5 @@
 <script>
+	import { fly, slide } from 'svelte/transition';
 	import { enhance } from '$app/forms';
 
 	export let data;
@@ -25,7 +26,7 @@
 
 	<ul class="todos">
 		{#each data.todos as todo (todo.id)}
-			<li>
+			<li in:fly={{ y: 20 }} out:slide>
 				<form method="POST" action="?/delete" use:enhance>
 					<input type="hidden" name="id" value={todo.id} />
 					<span>{todo.description}</span>

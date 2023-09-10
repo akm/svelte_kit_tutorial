@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { fly, slide } from 'svelte/transition';
 	import { enhance } from '$app/forms';
 
@@ -6,7 +6,7 @@
 	export let form;
 
 	let creating = false;
-	let deleting = [];	
+	let deleting: string[] = [];
 </script>
 
 <div class="centered">

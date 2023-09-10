@@ -1,5 +1,6 @@
 import * as db from '$lib/server/database';
 import type { Cookies } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 
 export function load(arg: { cookies: Cookies }) {
 	let id = arg.cookies.get('userid');
@@ -21,7 +22,18 @@ export const actions = {
 		const description = data.get('description');
 		if (!userID) throw new Error('User not found');
 		if (!description) throw new Error('Description not found');
-		db.createTodo(userID, description.toString());
+		try {
+			db.createTodo(userID, description.toString());
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				return fail(422, {
+					description: description,
+					error: err.message
+				});
+			} else {
+				throw err;
+			}
+		}
 	},
 
 	delete: async ({ cookies, request }) => {

@@ -35,9 +35,17 @@
 	</form>
 
 	<ul class="todos">
-		{#each data.todos as todo (todo.id)}
+		{#each data.todos.filter((todo) => !deleting.includes(todo.id)) as todo (todo.id)}
 			<li in:fly={{ y: 20 }} out:slide>
-				<form method="POST" action="?/delete" use:enhance>
+				<form method="POST" action="?/delete" 
+					use:enhance={() => {
+						deleting = [...deleting, todo.id];
+						return async ({ update }) => {
+							await update();
+							deleting = deleting.filter((id) => id !== todo.id);
+						};
+					}}
+				>
 					<input type="hidden" name="id" value={todo.id} />
 					<span>{todo.description}</span>
 					<button aria-label="Mark as complete" />

@@ -2,7 +2,7 @@
 	let number: number;
 
 	async function roll() {
-		const response = await fetch('/roll');
+		const response = await fetch('/api/rolls');
 		number = await response.json();
 	}
 </script>

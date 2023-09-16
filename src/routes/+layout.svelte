@@ -1,5 +1,5 @@
 <script type="ts">
-	import { page } from '$app/stores';
+	import { page, navigating } from '$app/stores';
 	import { Link } from './+layout/link';
 
 	const links = [
@@ -18,6 +18,10 @@
 	{#each links as link}
 		<a href={link.path} aria-current={link.match($page.url.pathname)}>{link.text}</a>
 	{/each}
+
+	{#if $navigating}
+		navigating to {$navigating.to.url.pathname}
+	{/if}	
 </nav>
 
 <slot />

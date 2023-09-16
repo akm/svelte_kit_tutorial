@@ -1,15 +1,20 @@
 <script type="ts">
 	import { page } from '$app/stores';
+	const links = [
+		{path: "/", text: "home"},
+		{path: "/blog", text: "blog"},
+		{path: "/todos", text: "TODOs"},
+		{path: "/todos2", text: "TODOs2"},
+		{path: "/roll", text: "role"},
+		{path: "/a/deeply/nested/route", text: "a deeply nested route"},
+		{path: "/about", text: "about"},
+	]
 </script>
 
 <nav>
-	<a href="/" aria-current={$page.url.pathname === '/'}>home</a>
-	<a href="/blog">blog</a>
-	<a href="/todos">TODOs</a>
-	<a href="/todos2">TODOs2</a>
-	<a href="/roll">role</a>
-	<a href="/a/deeply/nested/route">a deeply nested route</a>
-	<a href="/about" aria-current={$page.url.pathname === '/about'}>about</a>
+	{#each links as link}
+		<a href={link.path} aria-current={$page.url.pathname === link.path}>{link.text}</a>
+	{/each}
 </nav>
 
 <slot />

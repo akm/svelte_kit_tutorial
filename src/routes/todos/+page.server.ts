@@ -16,7 +16,8 @@ export function load(arg: { cookies: Cookies }) {
 }
 
 export const actions = {
-	create: async ({ cookies, request }) => {
+	create: async (args: { cookies: Cookies; request: Request }) => {
+		const { cookies, request } = args;
 		await new Promise((fulfil) => setTimeout(fulfil, 1000)); // artificial delay
 		const data = await request.formData();
 		const userID = cookies.get('userid');

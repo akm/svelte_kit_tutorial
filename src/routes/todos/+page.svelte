@@ -16,28 +16,29 @@
 		<p class="error">{form.error}</p>
 	{/if}
 
-	<form method="POST" action="?/create" use:enhance={() => {
-		creating = true;
-		return async ({update}) => {
-			await update();
-			creating = false;
-		}
-	}}>
+	<form
+		method="POST"
+		action="?/create"
+		use:enhance={() => {
+			creating = true;
+			return async ({ update }) => {
+				await update();
+				creating = false;
+			};
+		}}
+	>
 		<label>
 			add a todo:
-			<input
-				name="description"
-				autocomplete="off"
-				required
-				disabled={creating}
-			/>
+			<input name="description" autocomplete="off" required disabled={creating} />
 		</label>
 	</form>
 
 	<ul class="todos">
 		{#each data.todos.filter((todo) => !deleting.includes(todo.id)) as todo (todo.id)}
 			<li in:fly={{ y: 20 }} out:slide>
-				<form method="POST" action="?/delete" 
+				<form
+					method="POST"
+					action="?/delete"
 					use:enhance={() => {
 						deleting = [...deleting, todo.id];
 						return async ({ update }) => {
@@ -57,7 +58,6 @@
 	{#if creating}
 		<span class="saving">saving...</span>
 	{/if}
-
 </div>
 
 <style>

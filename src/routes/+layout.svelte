@@ -1,19 +1,21 @@
 <script type="ts">
 	import { page } from '$app/stores';
+	import { Link } from './+layout/link';
+
 	const links = [
-		{path: "/", text: "home"},
-		{path: "/blog", text: "blog"},
-		{path: "/todos", text: "TODOs"},
-		{path: "/todos2", text: "TODOs2"},
-		{path: "/roll", text: "role"},
-		{path: "/a/deeply/nested/route", text: "a deeply nested route"},
-		{path: "/about", text: "about"},
+		new Link("/", "home"),
+		new Link("/blog", "blog"),
+		new Link("/todos", "TODOs"),
+		new Link("/todos2", "TODOs2"),
+		new Link("/roll", "role"),
+		new Link("/a/deeply/nested/route", "a deeply nested route"),
+		new Link("/about", "about"),
 	]
 </script>
 
 <nav>
 	{#each links as link}
-		<a href={link.path} aria-current={$page.url.pathname === link.path}>{link.text}</a>
+		<a href={link.path} aria-current={link.match($page.url.pathname)}>{link.text}</a>
 	{/each}
 </nav>
 

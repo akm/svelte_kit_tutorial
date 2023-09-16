@@ -4,7 +4,7 @@
 
 	const links = [
 		new Link("/", "home"),
-		new Link("/blog", "blog"),
+		new Link("/blog", "blog", true),
 		new Link("/todos", "TODOs"),
 		new Link("/todos2", "TODOs2"),
 		new Link("/roll", "role"),

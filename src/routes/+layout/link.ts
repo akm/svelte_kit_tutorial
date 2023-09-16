@@ -1,7 +1,14 @@
 export class Link {
-	constructor(readonly path: string, readonly text: string) {}
+	readonly startsWithMatch: boolean;
+	constructor(readonly path: string, readonly text: string, startsWithMatch?: boolean) {
+		this.startsWithMatch = startsWithMatch || false;
+	}
 
 	match(path: string): boolean {
-		return path === this.path;
+		if (this.startsWithMatch) {
+			return path.startsWith(this.path);
+		} else {
+			return path === this.path;
+		}
 	}
 }

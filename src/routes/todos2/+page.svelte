@@ -62,6 +62,7 @@
 
 	input[type="text"] {
 		flex: 1;
+        color: black;
 	}
 
 	span {

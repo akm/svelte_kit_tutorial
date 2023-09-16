@@ -10,6 +10,7 @@
 		new Link("/roll", "role"),
 		new Link("/a/deeply/nested/route", "a deeply nested route"),
 		new Link("/about", "about"),
+		new Link("/visited", "visited"),
 	]
 </script>
 

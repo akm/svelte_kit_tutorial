@@ -4,14 +4,18 @@ type Todo = {
 	done: boolean;
 };
 
-const database = new Map();
+const database = new Map<string, Map<string, Todo>>();
 
 export function getTodos(userid: string): Todo[] {
 	if (!database.has(userid)) {
 		createTodo({ userid, description: 'Learn about API routes' });
 	}
+	let todoMap = database.get(userid);
+	if (!todoMap) {
+		todoMap = new Map<string, Todo>();
+	}
 
-	return Array.from(database.get(userid).values());
+	return Array.from(todoMap.values());
 }
 
 export function createTodo(arg: { userid: string; description: string }) {
@@ -20,11 +24,15 @@ export function createTodo(arg: { userid: string; description: string }) {
 		database.set(userid, new Map());
 	}
 
-	const todos = database.get(userid);
+	let todoMap = database.get(userid);
+	if (!todoMap) {
+		todoMap = new Map();
+		database.set(userid, todoMap);
+	}
 
 	const id = crypto.randomUUID();
 
-	todos.set(id, {
+	todoMap.set(id, {
 		id,
 		description,
 		done: false
@@ -37,12 +45,16 @@ export function createTodo(arg: { userid: string; description: string }) {
 
 export function toggleTodo(arg: { userid: string; id: string; done: boolean }) {
 	const { userid, id, done } = arg;
-	const todos = database.get(userid);
-	todos.get(id).done = done;
+	const todoMap = database.get(userid);
+	if (!todoMap) throw new Error('User not found');
+	const todo = todoMap.get(id);
+	if (!todo) throw new Error('Todo not found');
+	todo.done = done;
 }
 
 export function deleteTodo(arg: { userid: string; id: string }) {
 	const { userid, id } = arg;
-	const todos = database.get(userid);
-	todos.delete(id);
+	const todoMap = database.get(userid);
+	if (!todoMap) throw new Error('User not found');
+	todoMap.delete(id);
 }

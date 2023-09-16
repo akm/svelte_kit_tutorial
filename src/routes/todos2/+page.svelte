@@ -15,7 +15,21 @@
 					const input = e.currentTarget;
 					const description = input.value;
 					
-					// TODO handle submit
+                    const response = await fetch('/api/todos', {
+                        method: 'POST',
+                        body: JSON.stringify({ description }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const { id } = await response.json();
+
+                    data.todos = [...data.todos , {
+                        id,
+                        description,
+                        done: false,
+                    }];
 
 					input.value = '';
 				}

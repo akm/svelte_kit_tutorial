@@ -13,6 +13,8 @@
 		new Link("/visited", "visited"),
 		new Link("/errors/expected", "expected"),
 		new Link("/errors/unexpected", "unexpected"),
+		new Link("/redirects/a", "redirects a"),
+		new Link("/redirects/b", "redirects b"),
 	]
 </script>
 

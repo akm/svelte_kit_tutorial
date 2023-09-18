@@ -1,5 +1,5 @@
 import * as db from '$lib/server/database';
-import type { Cookies } from '@sveltejs/kit';
+import type { Cookies, RequestEvent } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 
 export function load(arg: { cookies: Cookies }) {
@@ -16,8 +16,11 @@ export function load(arg: { cookies: Cookies }) {
 }
 
 export const actions = {
-	create: async (args: { cookies: Cookies; request: Request }) => {
-		const { cookies, request } = args;
+	// https://kit.svelte.jp/docs/types#public-types-action
+	// https://kit.svelte.jp/docs/form-actions#anatomy-of-an-action
+	// https://learn.svelte.jp/tutorial/event
+	create: async (event: RequestEvent) => {
+		const { cookies, request } = event;
 		await new Promise((fulfil) => setTimeout(fulfil, 1000)); // artificial delay
 		const data = await request.formData();
 		const userID = cookies.get('userid');
@@ -38,7 +41,11 @@ export const actions = {
 		}
 	},
 
-	delete: async ({ cookies, request }) => {
+	// https://kit.svelte.jp/docs/types#public-types-action
+	// https://kit.svelte.jp/docs/form-actions#anatomy-of-an-action
+	// https://learn.svelte.jp/tutorial/event
+	delete: async (event: RequestEvent) => {
+		const { cookies, request } = event;
 		await new Promise((fulfil) => setTimeout(fulfil, 1000)); // artificial delay
 		const data = await request.formData();
 		const userID = cookies.get('userid');

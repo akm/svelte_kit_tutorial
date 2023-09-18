@@ -1,7 +1,11 @@
-import { json } from '@sveltejs/kit';
+import { json, type RequestEvent } from '@sveltejs/kit';
 import * as database from '$lib/server/database2';
 
-export async function POST({ request, cookies }) {
+// See https://kit.svelte.jp/docs/types#public-types-requestevent
+//     https://kit.svelte.jp/docs/routing#server-receiving-data
+//     https://learn.svelte.jp/tutorial/event
+export async function POST(event: RequestEvent) {
+	const { request, cookies } = event;
 	const { description } = await request.json();
 	if (!(typeof description === 'string')) throw new Error('Description not found');
 

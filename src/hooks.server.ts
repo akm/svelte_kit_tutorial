@@ -6,5 +6,7 @@ export async function handle(arg: {
 	resolve(event: RequestEvent, opts?: ResolveOptions): MaybePromise<Response>;
 }): MaybePromise<Response> {
 	await console.log('handle is called');
-	return await arg.resolve(arg.event);
+	return await arg.resolve(arg.event, {
+		transformPageChunk: ({ html }) => html.replace('<body', '<body style="color: hotpink"')
+	});
 }

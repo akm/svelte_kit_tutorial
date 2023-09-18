@@ -7,5 +7,8 @@ export async function handle(arg: {
 }): MaybePromise<Response> {
 	const { event, resolve } = arg;
 	await console.log('handle is called');
+	if (event.url.pathname === '/ping') {
+		return new Response('pong');
+	}
 	return await resolve(event);
 }

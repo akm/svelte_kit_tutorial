@@ -1,17 +1,18 @@
-import * as db from '$lib/server/database';
-import type { Cookies, RequestEvent } from '@sveltejs/kit';
+import { getTodos, createTodo, deleteTodo, type Todo } from '$lib/server/database';
+import type { RequestEvent, ServerLoadEvent } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 
-export function load(arg: { cookies: Cookies }) {
-	let id = arg.cookies.get('userid');
+export function load(event: ServerLoadEvent): { todos: Todo[] } {
+	const { cookies } = event;
+	let id = cookies.get('userid');
 
 	if (!id) {
 		id = crypto.randomUUID();
-		arg.cookies.set('userid', id, { path: '/' });
+		cookies.set('userid', id, { path: '/' });
 	}
 
 	return {
-		todos: db.getTodos(id) ?? []
+		todos: getTodos(id) ?? []
 	};
 }
 
@@ -28,7 +29,7 @@ export const actions = {
 		if (!userID) throw new Error('User not found');
 		if (!description) throw new Error('Description not found');
 		try {
-			db.createTodo(userID, description.toString());
+			createTodo(userID, description.toString());
 		} catch (err: unknown) {
 			if (err instanceof Error) {
 				return fail(422, {
@@ -52,6 +53,6 @@ export const actions = {
 		const id = data.get('id');
 		if (!userID) throw new Error('User not found');
 		if (!id) throw new Error('id not found');
-		db.deleteTodo(userID, id.toString());
+		deleteTodo(userID, id.toString());
 	}
 };

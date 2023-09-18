@@ -37,4 +37,9 @@ export function handleError(input: { error: unknown; event: RequestEvent }) {
 	} else {
 		console.error('handleError got unknown error object', error);
 	}
+
+	return {
+		message: 'everything is fine',
+		code: 'JEREMYBEARIMY'
+	};
 }

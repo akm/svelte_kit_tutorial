@@ -15,6 +15,7 @@
 		new Link("/errors/unexpected", "unexpected"),
 		new Link("/redirects/a", "redirects a"),
 		new Link("/redirects/b", "redirects b"),
+		new Link("/ping", "ping"),
 	]
 </script>
 

@@ -16,6 +16,7 @@
 		new Link("/redirects/a", "redirects a"),
 		new Link("/redirects/b", "redirects b"),
 		new Link("/ping", "ping"),
+		new Link("/request_event", "request_event"),
 	]
 </script>
 

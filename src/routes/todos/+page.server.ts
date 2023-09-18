@@ -1,23 +1,27 @@
-import * as db from '$lib/server/database';
-import type { Cookies } from '@sveltejs/kit';
+import { getTodos, createTodo, deleteTodo, type Todo } from '$lib/server/database';
+import type { RequestEvent, ServerLoadEvent } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 
-export function load(arg: { cookies: Cookies }) {
-	let id = arg.cookies.get('userid');
+export function load(event: ServerLoadEvent): { todos: Todo[] } {
+	const { cookies } = event;
+	let id = cookies.get('userid');
 
 	if (!id) {
 		id = crypto.randomUUID();
-		arg.cookies.set('userid', id, { path: '/' });
+		cookies.set('userid', id, { path: '/' });
 	}
 
 	return {
-		todos: db.getTodos(id) ?? []
+		todos: getTodos(id) ?? []
 	};
 }
 
 export const actions = {
-	create: async (args: { cookies: Cookies; request: Request }) => {
-		const { cookies, request } = args;
+	// https://kit.svelte.jp/docs/types#public-types-action
+	// https://kit.svelte.jp/docs/form-actions#anatomy-of-an-action
+	// https://learn.svelte.jp/tutorial/event
+	create: async (event: RequestEvent) => {
+		const { cookies, request } = event;
 		await new Promise((fulfil) => setTimeout(fulfil, 1000)); // artificial delay
 		const data = await request.formData();
 		const userID = cookies.get('userid');
@@ -25,7 +29,7 @@ export const actions = {
 		if (!userID) throw new Error('User not found');
 		if (!description) throw new Error('Description not found');
 		try {
-			db.createTodo(userID, description.toString());
+			createTodo(userID, description.toString());
 		} catch (err: unknown) {
 			if (err instanceof Error) {
 				return fail(422, {
@@ -38,13 +42,17 @@ export const actions = {
 		}
 	},
 
-	delete: async ({ cookies, request }) => {
+	// https://kit.svelte.jp/docs/types#public-types-action
+	// https://kit.svelte.jp/docs/form-actions#anatomy-of-an-action
+	// https://learn.svelte.jp/tutorial/event
+	delete: async (event: RequestEvent) => {
+		const { cookies, request } = event;
 		await new Promise((fulfil) => setTimeout(fulfil, 1000)); // artificial delay
 		const data = await request.formData();
 		const userID = cookies.get('userid');
 		const id = data.get('id');
 		if (!userID) throw new Error('User not found');
 		if (!id) throw new Error('id not found');
-		db.deleteTodo(userID, id.toString());
+		deleteTodo(userID, id.toString());
 	}
 };

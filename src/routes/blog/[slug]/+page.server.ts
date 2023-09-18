@@ -1,12 +1,9 @@
-import { error } from '@sveltejs/kit';
-import { posts } from '../data';
+import { error, type ServerLoadEvent } from '@sveltejs/kit';
+import { posts, type Post } from '../data';
 
-type Param = {
-	slug: string;
-};
-
-export function load(arg: { params: Param }) {
-	const post = posts.find((post) => post.slug === arg.params.slug);
+export function load(event: ServerLoadEvent): { post: Post } {
+	const { params } = event;
+	const post = posts.find((post) => post.slug === params.slug);
 
 	if (!post) throw error(404);
 

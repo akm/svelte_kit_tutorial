@@ -14,7 +14,7 @@ export async function handle(arg: {
 	return await resolve(event);
 }
 
-// https://kit.svelte.jp/docs/types#public-types-handle
+// https://kit.svelte.jp/docs/types#public-types-handlefetch
 export async function handleFetch(arg: {
 	event: RequestEvent;
 	request: Request;
@@ -26,4 +26,15 @@ export async function handleFetch(arg: {
 		return await fetch('/handle_fetch/b');
 	}
 	return await fetch(request);
+}
+
+// https://kit.svelte.jp/docs/types#public-types-handleservererror
+export function handleError(input: { error: unknown; event: RequestEvent }) {
+	console.error('handleError is called');
+	const { error } = input;
+	if (error instanceof Error) {
+		console.error(error.stack);
+	} else {
+		console.error('handleError got unknown error object', error);
+	}
 }

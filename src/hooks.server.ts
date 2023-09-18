@@ -5,6 +5,7 @@ export async function handle(arg: {
 	event: RequestEvent;
 	resolve(event: RequestEvent, opts?: ResolveOptions): MaybePromise<Response>;
 }): MaybePromise<Response> {
+	const { event, resolve } = arg;
 	await console.log('handle is called');
-	return await arg.resolve(arg.event);
+	return await resolve(event);
 }

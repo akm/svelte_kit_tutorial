@@ -1,4 +1,4 @@
-import * as database from '$lib/server/database2';
+import { getTodos } from '$lib/server/database2';
 
 export function load({ cookies }) {
 	let userid = cookies.get('userid');
@@ -9,6 +9,6 @@ export function load({ cookies }) {
 	}
 
 	return {
-		todos: database.getTodos(userid)
+		todos: getTodos(userid)
 	};
 }
